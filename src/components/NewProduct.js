@@ -1,5 +1,10 @@
 import React from "react";
 
+/**
+ * New Product
+ * @returns {*}
+ * @constructor
+ */
 const NewProduct = () => {
   return (
     <div className="row justify-content-center">

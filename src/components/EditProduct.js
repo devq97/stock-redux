@@ -1,5 +1,10 @@
 import React from "react";
 
+/**
+ * Edit Product
+ * @returns {*}
+ * @constructor
+ */
 const EditProduct = () => {
   return (
     <div className="row justify-content-center">

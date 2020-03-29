@@ -1,5 +1,10 @@
 import React, {Fragment} from 'react';
 
+/**
+ * Products list
+ * @returns {*}
+ * @constructor
+ */
 const Products = () => {
   return (
     <Fragment>

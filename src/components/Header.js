@@ -1,6 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+/**
+ * Header
+ * @param message
+ * @returns {*}
+ * @constructor
+ */
 const Header = ({message}) => (
   <nav className="navbar navbar-expand-lg navbar-dark bg-primary justify-content-between">
     <div className="container">

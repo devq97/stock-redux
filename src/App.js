@@ -6,17 +6,27 @@ import EditProduct from "./components/EditProduct";
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
+import { Provider } from 'react-redux';
+import store from "./store";
+
+/**
+ * App main
+ * @returns {*}
+ * @constructor
+ */
 function App() {
   return (
     <Router>
-      <Header message="Redux Stock" />
-      <div className="container mt-5">
-        <Switch>
-          <Route exact path="/" component={Products} />
-          <Route exact path="/products/new" component={NewProduct} />
-          <Route exact path="/products/edit/:id" component={EditProduct} />
-        </Switch>
-      </div>
+      <Provider store={store}>
+        <Header message="Redux Stock" />
+        <div className="container mt-5">
+          <Switch>
+            <Route exact path="/" component={Products} />
+            <Route exact path="/products/new" component={NewProduct} />
+            <Route exact path="/products/edit/:id" component={EditProduct} />
+          </Switch>
+        </div>
+      </Provider>
     </Router>
   );
 }
