@@ -4,19 +4,38 @@ import {
   ADD_PRODUCT_FAIL
 } from "../types";
 
+import axiosClient from "../config/axios";
+import Swal from 'sweetalert2';
+
 /**
  * Add product action
  * @param product
  * @returns {Function}
  */
 export function addProductAction(product) {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch( addProduct() );
 
     try {
+
+      await axiosClient.post('/products', product);
       dispatch( addProductSuccess(product) );
+      Swal.fire(
+        'Confirmation',
+        'Product was created correctly',
+        'success'
+      )
+
     } catch (error) {
+
+      console.log(error);
       dispatch( addProductFail() );
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Error, try again.'
+      })
+
     }
   }
 }

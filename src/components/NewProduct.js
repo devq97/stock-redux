@@ -22,7 +22,7 @@ const schema = yup.object().shape({
  * @returns {*}
  * @constructor
  */
-const NewProduct = () => {
+const NewProduct = ({history}) => {
 
   /**
    * state
@@ -34,6 +34,12 @@ const NewProduct = () => {
    * useDispatch
    */
   const dispatch = useDispatch();
+
+  /**
+   * Reading state
+   */
+  const loading = useSelector( state => state.products.loading );
+  const error = useSelector( state => state.products.error );
 
   /**
    * Destructuring useForm
@@ -52,10 +58,14 @@ const NewProduct = () => {
    * @param e
    */
   const onSubmit = () => {
+
     addProduct({
       name,
       price
     });
+
+    history.push('/');
+    
   }
 
   return (
@@ -105,6 +115,9 @@ const NewProduct = () => {
                 Add
               </button>
             </form>
+
+            { loading ? <p>Cargando...</p> : null }
+            { error ? <p className="alert alert-danger p-2 mt-2 text-center">Error</p> : null }
           </div>
         </div>
       </div>
