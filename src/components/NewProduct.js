@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -25,6 +25,12 @@ const schema = yup.object().shape({
 const NewProduct = () => {
 
   /**
+   * state
+   */
+  const [name, setName] = useState('');
+  const [price, setPrice] = useState(0);
+
+  /**
    * useDispatch
    */
   const dispatch = useDispatch();
@@ -39,14 +45,17 @@ const NewProduct = () => {
   /**
    * Call action
    */
-  const addProduct = () => dispatch( addProductAction() );
+  const addProduct = product => dispatch( addProductAction(product) );
 
   /**
    * OnSubmit
    * @param e
    */
   const onSubmit = () => {
-    addProduct();
+    addProduct({
+      name,
+      price
+    });
   }
 
   return (
@@ -72,6 +81,8 @@ const NewProduct = () => {
                   className={(errors.name ? "form-control is-invalid" : "form-control")}
                   placeholder="Name"
                   name="name"
+                  value={name}
+                  onChange={e => setName(e.target.value)}
                 />
                 {errors.name && <p className="invalid-feedback">{errors.name.message}</p>}
               </div>
@@ -84,6 +95,8 @@ const NewProduct = () => {
                   className={(errors.price ? "form-control is-invalid" : "form-control")}
                   placeholder="Cost"
                   name="price"
+                  value={price}
+                  onChange={e => setPrice(Number(e.target.value))}
                 />
                 {errors.price && <div className="invalid-feedback">{errors.price.message}</div>}
               </div>

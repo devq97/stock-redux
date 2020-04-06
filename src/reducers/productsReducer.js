@@ -24,11 +24,21 @@ export default function (state = initialState, action) {
   switch (action.type) {
     case ADD_PRODUCT:
       return {
-        ...state
-      }
-
+        ...state,
+        loading: action.payload
+      };
     case ADD_PRODUCT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        products: [...state.products, action.payload]
+      };
     case ADD_PRODUCT_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      }
     default:
       return state;
   }
