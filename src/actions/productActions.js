@@ -4,7 +4,10 @@ import {
   ADD_PRODUCT_FAIL,
   FETCH_PRODUCTS,
   FETCH_PRODUCTS_SUCCESS,
-  FETCH_PRODUCTS_FAIL
+  FETCH_PRODUCTS_FAIL,
+  DELETE_PRODUCT,
+  DELETE_PRODUCT_SUCCESS,
+  DELETE_PRODUCT_FAIL
 } from "../types";
 
 import axiosClient from "../config/axios";
@@ -82,7 +85,7 @@ export function fetchProductsAction() {
 
     try {
 
-      const { data } = await axiosClient.get('products');
+      const { data } = await axiosClient.get('/products');
       dispatch( fetchProductsSuccess(data) );
 
     } catch (error) {
@@ -121,3 +124,55 @@ const fetchProductsFail = () => ({
   type: FETCH_PRODUCTS_FAIL,
   payload: true
 });
+
+export function deleteProductAction(id) {
+  return async (dispatch) => {
+
+    dispatch( deleteProduct(id) );
+    try {
+
+      await axiosClient.delete(`/products/${id}`);
+      dispatch( deleteProductSuccess() );
+
+      Swal.fire(
+        'Deleted!',
+        'Your product has been deleted.',
+        'success'
+      )
+
+    } catch (error) {
+
+      console.log(error);
+      dispatch( deleteProductFail() );
+
+    }
+  };
+};
+
+/**
+ * Delete product
+ * @param id
+ * @returns {{payload: *, type: *}}
+ */
+const deleteProduct = id => ({
+  type: DELETE_PRODUCT,
+  payload: id
+});
+
+/**
+ * Delete product success
+ * @returns {{payload: null, type: *}}
+ */
+const deleteProductSuccess = () => ({
+  type: DELETE_PRODUCT_SUCCESS
+})
+
+/**
+ * Product delete fail
+ * @returns {{payload: boolean, type: *}}
+ */
+const deleteProductFail = () => ({
+  type: DELETE_PRODUCT_FAIL,
+  payload: true
+})
+

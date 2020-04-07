@@ -4,7 +4,10 @@ import {
   ADD_PRODUCT_FAIL,
   FETCH_PRODUCTS,
   FETCH_PRODUCTS_SUCCESS,
-  FETCH_PRODUCTS_FAIL
+  FETCH_PRODUCTS_FAIL,
+  DELETE_PRODUCT,
+  DELETE_PRODUCT_SUCCESS,
+  DELETE_PRODUCT_FAIL
 } from "../types";
 
 /**
@@ -14,7 +17,8 @@ import {
 const initialState = {
   products: [],
   error: null,
-  loading: false
+  loading: false,
+  productToDelete: null
 };
 
 /**
@@ -40,6 +44,7 @@ export default function (state = initialState, action) {
       };
     case ADD_PRODUCT_FAIL:
     case FETCH_PRODUCTS_FAIL:
+    case DELETE_PRODUCT_FAIL:
       return {
         ...state,
         loading: false,
@@ -51,6 +56,17 @@ export default function (state = initialState, action) {
         loading: false,
         error: null,
         products: action.payload
+      }
+    case DELETE_PRODUCT:
+      return {
+        ...state,
+        productToDelete: action.payload
+      }
+    case DELETE_PRODUCT_SUCCESS:
+      return {
+        ...state,
+        products: state.products.filter( product => product.id !== state.productToDelete ),
+        productToDelete: null
       }
     default:
       return state;
