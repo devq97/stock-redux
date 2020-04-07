@@ -1,7 +1,10 @@
 import {
   ADD_PRODUCT,
   ADD_PRODUCT_SUCCESS,
-  ADD_PRODUCT_FAIL
+  ADD_PRODUCT_FAIL,
+  FETCH_PRODUCTS,
+  FETCH_PRODUCTS_SUCCESS,
+  FETCH_PRODUCTS_FAIL
 } from "../types";
 
 import axiosClient from "../config/axios";
@@ -65,5 +68,56 @@ const addProductSuccess = product => ({
  */
 const addProductFail = () => ({
   type: ADD_PRODUCT_FAIL,
+  payload: true
+});
+
+/**
+ * Fetch products action
+ * @returns {Function}
+ */
+export function fetchProductsAction() {
+  return async (dispatch) => {
+
+    dispatch( fetchProducts() );
+
+    try {
+
+      const { data } = await axiosClient.get('products');
+      dispatch( fetchProductsSuccess(data) );
+
+    } catch (error) {
+
+      console.log(error);
+      dispatch( fetchProductsFail() );
+
+    }
+  };
+}
+
+/**
+ * Fetch products
+ * @returns {{payload: boolean, type: *}}
+ */
+const fetchProducts = () => ({
+  type: FETCH_PRODUCTS,
+  payload: true
+});
+
+/**
+ * Fetch products success
+ * @param data
+ * @returns {{payload: *, type: *}}
+ */
+const fetchProductsSuccess = data => ({
+  type: FETCH_PRODUCTS_SUCCESS,
+  payload: data
+});
+
+/**
+ * Fetch products fail
+ * @returns {{payload: boolean, type: *}}
+ */
+const fetchProductsFail = () => ({
+  type: FETCH_PRODUCTS_FAIL,
   payload: true
 });

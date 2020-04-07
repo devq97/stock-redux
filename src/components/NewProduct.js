@@ -65,7 +65,7 @@ const NewProduct = ({history}) => {
     });
 
     history.push('/');
-    
+
   }
 
   return (
@@ -116,7 +116,7 @@ const NewProduct = ({history}) => {
               </button>
             </form>
 
-            { loading ? <p>Cargando...</p> : null }
+            { loading ? <p>Loading...</p> : null }
             { error ? <p className="alert alert-danger p-2 mt-2 text-center">Error</p> : null }
           </div>
         </div>
