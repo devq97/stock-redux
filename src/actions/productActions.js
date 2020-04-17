@@ -8,7 +8,6 @@ import {
   DELETE_PRODUCT,
   DELETE_PRODUCT_SUCCESS,
   DELETE_PRODUCT_FAIL,
-  EDIT_PRODUCT,
   START_EDIT_PRODUCT,
   EDIT_PRODUCT_SUCCESS,
   EDIT_PRODUCT_FAIL, LOAD_EDIT_PRODUCT
@@ -217,6 +216,7 @@ export const editProductAction = product => {
     } catch (error) {
 
       console.log(error);
+      dispatch( editProductFail() );
 
     }
   }
@@ -238,5 +238,14 @@ const editProduct = () => ({
 const editProductSuccess = product => ({
   type: EDIT_PRODUCT_SUCCESS,
   payload: product
+});
+
+/**
+ * Product edit fail
+ * @returns {{payload: boolean, type: *}}
+ */
+const editProductFail = () => ({
+  type: EDIT_PRODUCT_FAIL,
+  payload: true
 });
 

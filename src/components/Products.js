@@ -31,7 +31,7 @@ const Products = () => {
     const fetchProducts = () => dispatch( fetchProductsAction() );
     fetchProducts();
 
-  }, [])
+  }, []);
 
   return (
     <Fragment>

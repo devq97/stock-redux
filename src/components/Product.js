@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { deleteProductAction, LoadEditProductAction } from "../actions/productActions";
 import Swal from 'sweetalert2';
@@ -57,23 +57,19 @@ const Product = ({product}) => {
     <tr>
       <td>{name}</td>
       <td>
-        <span className="font-weight-bold">$ {price}</span>
+        <span className="font-weight-bold">${price}</span>
       </td>
       <td>
         <button
           type="button"
           onClick={ () => redirectEdit(product) }
           className="btn btn-primary mr-2"
-        >
-          Edit
-        </button>
+        >Edit</button>
         <button
           type="button"
           className="btn btn-danger"
           onClick={() => handleDelete(id)}
-        >
-          Delete
-        </button>
+        >Delete</button>
       </td>
     </tr>
   )

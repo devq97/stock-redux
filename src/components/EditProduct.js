@@ -2,6 +2,17 @@ import React, {useEffect, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { editProductAction } from "../actions/productActions";
 import { useHistory } from 'react-router-dom';
+import * as yup from "yup";
+import {useForm} from "react-hook-form";
+
+/**
+ * Schema for validations
+ * @type {*|T|RefSet|RefSet|MediaStream|Response|MediaStreamTrack|Request}
+ */
+const schema = yup.object().shape({
+  name: yup.string().required(),
+  price: yup.number().required().positive()
+});
 
 /**
  * Edit Product
@@ -24,6 +35,13 @@ const EditProduct = () => {
   const dispatch = useDispatch();
 
   /**
+   * Destructuring useForm
+   */
+  const { register, handleSubmit, errors } = useForm({
+    validationSchema: schema
+  });
+
+  /**
    * useHistory
    */
   const history = useHistory();
@@ -39,6 +57,13 @@ const EditProduct = () => {
   useEffect(() => {
     setProduct(productToEdit);
   }, [productToEdit]);
+
+  /**
+   * Validation
+   */
+  if (!productToEdit) {
+    return null;
+  }
 
   /**
    * Destructuring product to edit
@@ -58,13 +83,12 @@ const EditProduct = () => {
 
   /**
    * onSubmit
-   * @param e
    */
-  const handleSubmit = e => {
-    e.preventDefault();
+  const onSubmit = () => {
 
     dispatch( editProductAction(product) );
     history.push('/');
+
   };
 
   return (
@@ -77,18 +101,20 @@ const EditProduct = () => {
             </h2>
 
             <form
-              onSubmit={handleSubmit}
+              onSubmit={handleSubmit(onSubmit)}
             >
               <div className="form-group">
                 <label>Name</label>
                 <input
                   type="text"
-                  className="form-control"
+                  className={(errors.name ? "form-control is-invalid" : "form-control")}
                   placeholder="Name"
+                  ref={register}
                   name="name"
                   value={name}
                   onChange={handleChange}
                 />
+                {errors.name && <p className="invalid-feedback">{errors.name.message}</p>}
               </div>
 
 
@@ -96,12 +122,14 @@ const EditProduct = () => {
                 <label>Price</label>
                 <input
                   type="number"
-                  className="form-control"
+                  className={(errors.price ? "form-control is-invalid" : "form-control")}
                   placeholder="Cost"
                   name="price"
+                  ref={register}
                   value={price}
                   onChange={handleChange}
                 />
+                {errors.price && <p className="invalid-feedback">{errors.price.message}</p>}
               </div>
 
               <button type="submit" className="btn btn-primary font-weight-bold text-uppercase d-block w-100">

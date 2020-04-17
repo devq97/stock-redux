@@ -55,7 +55,6 @@ const NewProduct = ({history}) => {
 
   /**
    * OnSubmit
-   * @param e
    */
   const onSubmit = () => {
 
@@ -66,7 +65,7 @@ const NewProduct = ({history}) => {
 
     history.push('/');
 
-  }
+  };
 
   return (
     <div className="row justify-content-center">
