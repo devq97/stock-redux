@@ -23,6 +23,9 @@ const Products = () => {
   const error = useSelector( state => state.products.error);
   const loading = useSelector( state => state.products.loading);
 
+  /**
+   * Fetch products
+   */
   useEffect( () => {
 
     const fetchProducts = () => dispatch( fetchProductsAction() );

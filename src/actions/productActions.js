@@ -7,7 +7,11 @@ import {
   FETCH_PRODUCTS_FAIL,
   DELETE_PRODUCT,
   DELETE_PRODUCT_SUCCESS,
-  DELETE_PRODUCT_FAIL
+  DELETE_PRODUCT_FAIL,
+  EDIT_PRODUCT,
+  START_EDIT_PRODUCT,
+  EDIT_PRODUCT_SUCCESS,
+  EDIT_PRODUCT_FAIL, LOAD_EDIT_PRODUCT
 } from "../types";
 
 import axiosClient from "../config/axios";
@@ -161,11 +165,11 @@ const deleteProduct = id => ({
 
 /**
  * Delete product success
- * @returns {{payload: null, type: *}}
+ * @returns {{type: *}}
  */
 const deleteProductSuccess = () => ({
   type: DELETE_PRODUCT_SUCCESS
-})
+});
 
 /**
  * Product delete fail
@@ -174,5 +178,65 @@ const deleteProductSuccess = () => ({
 const deleteProductFail = () => ({
   type: DELETE_PRODUCT_FAIL,
   payload: true
-})
+});
+
+/**
+ * Edit Product
+ * @param product
+ * @returns {Function}
+ */
+export function LoadEditProductAction(product) {
+  return (dispatch) => {
+    dispatch( LoadEditProduct(product) );
+  }
+}
+
+/**
+ * Edit product action
+ * @param product
+ * @returns {{payload: *, type: *}}
+ */
+const LoadEditProduct = product => ({
+  type: LOAD_EDIT_PRODUCT,
+  payload: product
+});
+
+/**
+ * Start edit product
+ * @param product
+ */
+export const editProductAction = product => {
+  return async (dispatch) => {
+    dispatch( editProduct() );
+
+    try {
+
+      await axiosClient.put(`/products/${product.id}`, product);
+      dispatch( editProductSuccess(product) );
+
+    } catch (error) {
+
+      console.log(error);
+
+    }
+  }
+};
+
+/**
+ * editProduct
+ * @returns {{type: *}}
+ */
+const editProduct = () => ({
+  type: START_EDIT_PRODUCT
+});
+
+/**
+ * Edit product success
+ * @param product
+ * @returns {{payload: *, type: *}}
+ */
+const editProductSuccess = product => ({
+  type: EDIT_PRODUCT_SUCCESS,
+  payload: product
+});
 
